@@ -4,13 +4,14 @@ const Schema = mongoose.Schema;
 
 const exerciseSchema = new Schema(
   {
-    username: { type: String, required: true },
+    userId: String,
+    username: String,
     description: { type: String, required: true },
     duration: { type: Number, required: true },
-    date: { type: Date, required: true },
+    date: String,
   },
   {
-    timestamps: true,
+    versionKey: false,
   }
 );
 

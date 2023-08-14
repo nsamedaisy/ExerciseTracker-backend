@@ -1,17 +1,26 @@
 const router = require("express").Router();
 let Exercise = require("../models/exercise");
+const User = require("../models/user");
 
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res) {
   Exercise.find()
     .then((exercises) => res.json(exercises))
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.post("/add", function (req, res, next) {
-  const userId = req.body.userId;
+router.post("/add/:id", async (req, res) => {
+  const userId = req.body["userId"];
   const description = req.body.description;
-  const duration = Number(req.body.duration);
-  const date = Date(req.body.date);
+  const duration = req.body.duration;
+  const date = req.body.date;
+
+  const userFound = await User.findById(userId);
+
+  console.log("this is user;", userFound);
+
+  if (!userFound) {
+    res.send("User not found");
+  }
 
   const newExercise = new Exercise({
     userId,
@@ -20,9 +29,17 @@ router.post("/add", function (req, res, next) {
     date,
   });
 
+  userExercise = {
+    _id: userId,
+    username: userFound.username,
+    date: date,
+    duration,
+    description,
+  };
+
   newExercise
     .save()
-    .then(() => res.json("Exercise added!"))
+    .then(() => res.json({ userExercise }))
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
