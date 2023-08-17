@@ -1,7 +1,7 @@
 const router = require("express").Router();
 let User = require("../models/user");
 
-/* GET users listing. */
+/* GET user List */
 router.get("/", function (req, res, next) {
   User.find()
     .then((users) => res.json(users))
@@ -12,7 +12,7 @@ router.post("/users/add", function (req, res) {
   const username = req.body.username;
 
   const newUser = new User({ username });
-  console.log(newUser)
+  console.log(newUser);
 
   newUser
     .save()

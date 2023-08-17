@@ -14,35 +14,33 @@ router.post("/add/:id", async (req, res) => {
   const duration = req.body.duration;
   const date = req.body.date;
 
-  const userFound = await User.findById(userId);
+  try {
+    const userFound = User.findById(userId);
 
-  console.log("this is user;", userFound);
+    if (!userFound) {
+      return res.status(404).send("User not found");
+    }
 
-  if (!userFound) {
-    res.send("User not found");
+    const newExercise = new Exercise({
+      userId,
+      description,
+      duration,
+      date,
+    });
+
+    await newExercise.save();
+
+    return res.json({
+      _id: userId,
+      username: userFound.username,
+      date: date,
+      duration,
+      description,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal server error");
   }
-
-  const newExercise = new Exercise({
-    userId,
-    description,
-    duration,
-    date,
-  });
-
-  // userExercise = {};
-
-  newExercise
-    .save()
-    .then(() =>
-      res.json({
-        _id: userId,
-        username: userFound.username,
-        date: date,
-        duration,
-        description,
-      })
-    )
-    .catch((err) => res.status(400).json("Error:" + err));
 });
 
 router.get("/:id", function (req, res) {
