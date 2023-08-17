@@ -8,6 +8,7 @@ router.get("/", function (req, res) {
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
+//Post using Id to get username with exercise
 router.post("/add/:id", async (req, res) => {
   const userId = req.body["userId"];
   const description = req.body.description;
