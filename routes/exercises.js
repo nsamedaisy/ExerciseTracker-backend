@@ -15,20 +15,19 @@ router.post("/add/:id", async (req, res) => {
   const date = req.body.date;
 
   try {
-    const userFound = User.findById(userId);
+    const userFound = await User.findById(userId);
 
     if (!userFound) {
       return res.status(404).send("User not found");
     }
 
-    const newExercise = new Exercise({
-      userId,
+    await Exercise.create({
+      userId: userId,
+      username: userFound.username,
       description,
       duration,
-      date,
+      date: date,
     });
-
-    await newExercise.save();
 
     return res.json({
       _id: userId,
