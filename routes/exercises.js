@@ -29,17 +29,19 @@ router.post("/add/:id", async (req, res) => {
     date,
   });
 
-  userExercise = {
-    _id: userId,
-    username: userFound.username,
-    date: date,
-    duration,
-    description,
-  };
+  // userExercise = {};
 
   newExercise
     .save()
-    .then(() => res.json({ userExercise }))
+    .then(() =>
+      res.json({
+        _id: userId,
+        username: userFound.username,
+        date: date,
+        duration,
+        description,
+      })
+    )
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
