@@ -58,16 +58,6 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     res.json("Error trying to get exercise: ", err);
   }
-  // .then(() =>
-  //   res.json({
-  //     _id: userId,
-  //     username: userFound.username,
-  //     date: date,
-  //     duration,
-  //     description,
-  //   })
-  // )
-  // .catch((err => res.status(400).json({"Error":  err})));
 });
 
 router.delete("/:id", function (req, res) {
