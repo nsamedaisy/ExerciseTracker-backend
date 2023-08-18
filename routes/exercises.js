@@ -9,7 +9,7 @@ router.get("/", function (req, res) {
 });
 
 //Post using Id to get username with exercise
-router.post("/add/:id", async (req, res) => {
+router.post("/add", async (req, res) => {
   const userId = req.body["userId"];
   const description = req.body.description;
   const duration = req.body.duration;
@@ -43,10 +43,31 @@ router.post("/add/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", function (req, res) {
-  Exercise.findById(req.params.id)
-    .then((exercise) => res.json(exercise))
-    .catch((err = res.status(400).json("Error:" + err)));
+router.get("/:id", async (req, res) => {
+  let id = req.params.id;
+  console.log("this is id: ", id);
+  try {
+    const exercise = await Exercise.findOne({ userId: id });
+    res.json({
+      userId: exercise.userId,
+      username: exercise.username,
+      description: exercise.description,
+      duration: exercise.duration,
+      date: exercise.date,
+    });
+  } catch (err) {
+    res.json("Error trying to get exercise: ", err);
+  }
+  // .then(() =>
+  //   res.json({
+  //     _id: userId,
+  //     username: userFound.username,
+  //     date: date,
+  //     duration,
+  //     description,
+  //   })
+  // )
+  // .catch((err => res.status(400).json({"Error":  err})));
 });
 
 router.delete("/:id", function (req, res) {
