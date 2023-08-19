@@ -15,7 +15,7 @@ var exercisesRouter = require('./routes/exercises');
 
 var app = express();
 
-const port = process.env.PORT || 2020;
+// const port = process.env.PORT || 2020;
 
 
 // view engine setup
@@ -64,9 +64,9 @@ connection.once("open", () => {
 // app.use('/users', usersRouter);
 
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port: ${port}`);
+// });
 
 
 module.exports = app;
